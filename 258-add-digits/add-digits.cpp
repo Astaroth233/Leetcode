@@ -1,7 +1,7 @@
 class Solution {
 public:
     int addDigits(int num) {
-        int slow = num, fast = num;
+        int slow = num;
         while(slow > 9)
         {
             int sum = s(slow);
