@@ -5,8 +5,8 @@ public:
         {
             return false;
         }
-        map<char, int> sm;
-        map<char, int> tm;
+        unordered_map<char, int> sm;
+        unordered_map<char, int> tm;
 
         for(char c : s)
         {
@@ -17,17 +17,7 @@ public:
             tm[c] ++;
         }
 
-        for(auto c : tm)
-        {
-            char letter = c.first;
-            int ft = c.second;
-            int st = sm[letter];
-            if(st < ft)
-            {
-                return false;
-            }
-        }
-        return true;
+        return tm == sm;
     }
     
 };
