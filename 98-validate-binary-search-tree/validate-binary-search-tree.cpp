@@ -11,17 +11,11 @@
  */
 class Solution {
 public:
-    vector<int> tree;
+    TreeNode* prev = NULL;
+    bool ans = true;
     bool isValidBST(TreeNode* root) {
         inorder(root);
-        for(int i=0;i<tree.size()-1;i++)
-        {
-            if(tree[i] >= tree[i+1])
-            {
-                return false;
-            }
-        }
-        return true;
+        return ans;
     }
 
     void inorder(TreeNode* &root)
@@ -31,7 +25,19 @@ public:
             return;
         }
         inorder(root -> left);
-        tree.push_back(root -> val);
+        
+        if(prev == NULL)
+        {
+            prev = root;
+        }
+        else
+        {
+            if(root -> val <= prev -> val)
+            {
+                ans = false;
+            }
+            prev = root;
+        }
         inorder(root -> right);
     }
 };
