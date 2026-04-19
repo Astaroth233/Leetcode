@@ -12,10 +12,7 @@
 class Solution {
 public:
     TreeNode* sortedArrayToBST(vector<int>& nums) {
-        int low =0;
-        int high = nums.size() - 1;
-
-        return func(nums, low, high);
+        return func(nums, 0, nums.size()-1);
     }
 
     TreeNode* func(vector<int> nums, int low, int high)
