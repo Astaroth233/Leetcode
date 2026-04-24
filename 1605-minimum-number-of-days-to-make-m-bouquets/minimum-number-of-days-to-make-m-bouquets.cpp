@@ -1,6 +1,10 @@
 class Solution {
 public:
     int minDays(vector<int>& bloomDay, int m, int k) {
+        if((long long)m * k > bloomDay.size())
+        {
+            return -1;
+        }
         int low = 1, high = 0;
         int res = 0;
         for(int i=0;i<bloomDay.size();i++)
