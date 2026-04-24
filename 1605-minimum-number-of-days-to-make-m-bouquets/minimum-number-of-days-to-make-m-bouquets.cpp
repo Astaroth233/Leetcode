@@ -1,79 +1,49 @@
 class Solution {
 public:
     int minDays(vector<int>& bloomDay, int m, int k) {
-        if(1LL * m*k > bloomDay.size())
+        int low = 1, high = 0;
+        int res = 0;
+        for(int i=0;i<bloomDay.size();i++)
         {
-            return -1;
+            high = max(high, bloomDay[i]);
         }
-        int start = minimum(bloomDay), end = maximum(bloomDay);
-        int ans = end;
-        while(start <= end)
+
+        while(low <= high)
         {
-            int mid = start + (end - start) / 2;
-            if(possible(bloomDay, mid, m, k))
+            int mid = low + (high - low) / 2;
+            if(bloom(bloomDay, k, mid) >= m)
             {
-                ans = mid;
-                end = mid - 1;
+                res = mid;
+                high = mid - 1;
             }
             else
             {
-                start = mid + 1;
+                low = mid + 1;
             }
         }
-        return ans;
+        return res == 0 ? -1 : res;
     }
 
-    int maximum(vector<int>& num)
+    int bloom(vector<int> &a, int k, int day)
     {
-        int val = INT_MIN;
-        for(int i=0;i<num.size();i++)
+        int res = 0;
+        int v = k;
+        for(int i=0;i<a.size();i++)
         {
-            if(num[i] > val)
+            if(a[i] <= day)
             {
-                val = num[i];
+                v --;
+            }
+            else
+            {
+                v = k;
+            }
+            if(v == 0)
+            {
+                res ++;
+                v = k;
             }
         }
-        return val;
+        return res;
     }
-
-    int minimum(vector<int>& num)
-    {
-        int val = INT_MAX;
-        for(int i=0;i<num.size();i++)
-        {
-            if(num[i] < val)
-            {
-                val = num[i];
-            }
-        }
-        return val;
-    }
-
-    bool possible(vector<int>& arr, int day, int m, int k)
-{
-    int count = 0;
-    int bouq = 0;
-
-    for(int i = 0; i < arr.size(); i++)
-    {
-        if(arr[i] <= day)
-        {
-            count++;
-            if(count == k)        // bouquet formed
-            {
-                bouq++;
-                count = 0;
-
-                if(bouq >= m)     // 🔥 early exit
-                    return true;
-            }
-        }
-        else
-        {
-            count = 0;
-        }
-    }
-
-    return false;
-}
 };
