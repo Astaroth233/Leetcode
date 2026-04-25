@@ -3,41 +3,41 @@ public:
     vector<vector<int>> threeSum(vector<int>& nums) {
         sort(nums.begin(), nums.end());
         vector<vector<int>> res;
-        for(int i=0;i<nums.size()-1;i++)
+        for(int i=0;i<nums.size()-2;i++)
         {
             if(i > 0 && nums[i] == nums[i-1])
             {
                 continue;
             }
-            int curr = -1 * nums[i];
-            int left = i + 1;
-            int right = nums.size() - 1;
+            int val = -1 * nums[i];
+            int l = i + 1, h = nums.size()-1;
 
-            while(left < right)
+            while(l < h)
             {
-                int sum = nums[left] + nums[right];
-                if(sum == curr)
+                int sum = nums[l] + nums[h];
+                if(sum == val)
                 {
-                    res.push_back({-1 * curr, nums[left], nums[right]});
-                    left ++;
-                    right --;
+                    res.push_back({nums[i], nums[l], nums[h]});
+                    l++;
+                    h--;
 
-                    while(left < nums.size() && nums[left] == nums[left - 1])
+                    while(l<nums.size() && nums[l] == nums[l-1])
                     {
-                        left++;
+                        l++;
                     }
-                    while(right >= 0 && nums[right] == nums[right + 1])
+
+                    while(h>=0 && nums[h] == nums[h+1])
                     {
-                        right --;
+                        h--;
                     }
                 }
-                else if(sum > curr)
+                else if(sum > val)
                 {
-                    right --;
+                    h --;
                 }
                 else
                 {
-                    left ++;
+                    l ++;
                 }
             }
         }
