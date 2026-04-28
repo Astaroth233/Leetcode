@@ -1,15 +1,24 @@
 class Solution {
 public:
     int minimizedStringLength(string s) {
-        unordered_map<char, int> map;
+        vector<int> store(26, 0);
 
         for(char ch : s)
         {
-            if(map.find(ch) == map.end())
+            if(store[ch-'a'] == 0)
             {
-                map[ch] ++;
+                store[ch-'a'] = 1;
             }
         }
-        return map.size();
+
+        int count = 0;
+        for(int i : store)
+        {
+            if(i == 1)
+            {
+                count ++;
+            }
+        }
+        return count;
     }
 };
