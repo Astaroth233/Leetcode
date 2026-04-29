@@ -2,9 +2,7 @@ class Solution {
 public:
     int leastInterval(vector<char>& tasks, int n) {
         unordered_map<char, int> freq;
-        int seat = 1;
         unordered_map<char, int> free;
-        priority_queue<pair<int, char>> pq;
 
         for(int i=0;i<tasks.size();i++)
         {
@@ -12,32 +10,35 @@ public:
             free[tasks[i]] = 1;
         }
 
+        priority_queue<pair<int, char>> pq;
         for(auto i : freq)
         {
             pq.push({i.second, i.first});
         }
 
+        int seat = 1;
         while(!pq.empty())
         {
-            vector<pair<int, char>> pulled;
+            vector<pair<int, int>> pulled;
             while(!pq.empty())
             {
-                pair<int, char> curr = pq.top();
+                pair<int, int> p = pq.top();
                 pq.pop();
-                int f = curr.first;
-                int l = curr.second;
-                if(free[l] <= seat)
+                int fr = p.first;
+                int ch = p.second;
+
+                if(free[ch] <= seat)
                 {
-                    if(f > 1)
+                    if(fr > 1)
                     {
-                        pq.push({f - 1, l});
-                        free[l] = seat + n + 1;  
+                        pq.push({p.first-1, p.second});
+                        free[p.second] = seat + n + 1;
                     }
                     break;
                 }
                 else
                 {
-                    pulled.push_back(curr);
+                    pulled.push_back(p);
                 }
             }
             for(int i=0;i<pulled.size();i++)
