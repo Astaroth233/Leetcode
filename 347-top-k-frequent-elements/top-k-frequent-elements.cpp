@@ -1,31 +1,34 @@
 class Solution {
 public:
-    vector<int> topKFrequent(vector<int>& nums, int k) {
 
-        struct cmp
+    struct cmp
+    {
+        bool operator()(const pair<int, int> &a, const pair<int, int> &b)
         {
-            bool operator()(const pair<int, int> &a, const pair<int, int> &b)
+            if(a.first != b.first)
             {
-                if(a.first != b.first)
-                {
-                    return a.first > b.first;
-                }
-                return a.second > b.second;
+                return a.first > b.first;
             }
-        };
+            return a.second > b.second;
+        }
+    };
 
-        unordered_map<int, int> m;
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int, int> map;
+
         for(int i : nums)
         {
-            m[i] ++;
+            map[i] ++;
         }
 
-        priority_queue<pair<int, int>, vector<pair<int,int>>, cmp > pq;
-        for(auto i : m)
+        priority_queue<pair<int, int>, vector<pair<int, int>>, cmp> pq;
+
+        for(auto i : map)
         {
             int element = i.first;
             int freq = i.second;
             pair<int, int> curr = {freq, element};
+
             if(pq.size() < k)
             {
                 pq.push(curr);
@@ -45,8 +48,6 @@ public:
             res.push_back(pq.top().second);
             pq.pop();
         }
-
         return res;
-        
     }
 };
