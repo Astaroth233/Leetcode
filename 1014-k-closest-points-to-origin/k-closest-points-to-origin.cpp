@@ -1,30 +1,25 @@
 class Solution {
 public:
-    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
-        
-        struct cmp{
-            bool operator()(const pair<int, int> &a, const pair<int, int> &b)
-            {
-                return a.first < b.first;
-            }
-        };
 
-        priority_queue<pair<int, int>, vector<pair<int, int>>, cmp > pq;
+    struct cmp
+    {
+        bool operator() (const pair<int, int> &a, const pair<int, int> &b)
+        {
+            return a.first < b.first;
+        }
+    };
+
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
+
+        priority_queue<pair<int,int>, vector<pair<int, int>>, cmp> pq;
         for(int i=0;i<points.size();i++)
         {
-            int f = (points[i][0] - 0) * (points[i][0] - 0);
-            int s = (points[i][1] - 0) * (points[i][1] - 0);
-            int dist = f + s;
+            int sq = (points[i][0] * points[i][0]) + (points[i][1] * points[i][1]);
+            pq.push({sq, i});
 
-            if(pq.size() < k)
-            {
-                pq.push({dist, i});
-                continue;
-            }
-            if(pq.top().first > dist)
+            if(pq.size() > k)
             {
                 pq.pop();
-                pq.push({dist, i});
             }
         }
 
