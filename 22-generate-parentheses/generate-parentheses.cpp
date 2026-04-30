@@ -1,13 +1,14 @@
 class Solution {
 public:
     vector<string> generateParenthesis(int n) {
-        vector<string> res;
         string ans = "";
-        gPhelper(n, 0, 0, res, ans);
-        return res;
+        vector<string> res;
+
+        generate(n, res, 0, 0, ans);
+        return res;        
     }
 
-    void gPhelper(int n, int open, int close, vector<string> &res, string ans)
+    void generate(int n, vector<string> &res, int open, int close, string &ans)
     {
         if(open == n && close == n)
         {
@@ -18,13 +19,13 @@ public:
         if(open < n)
         {
             ans.push_back('(');
-            gPhelper(n, open + 1, close, res, ans);
+            generate(n,res,open+1,close,ans);
             ans.pop_back();
         }
-        if(open > close)
+        if(close < open)
         {
             ans.push_back(')');
-            gPhelper(n, open, close + 1, res, ans);
+            generate(n,res,open,close+1,ans);
             ans.pop_back();
         }
         return;
