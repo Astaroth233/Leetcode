@@ -1,42 +1,45 @@
 class Solution {
 public:
     int minRefuelStops(int target, int startFuel, vector<vector<int>>& stations) {
-        int s = startFuel;
 
-        int n = stations.size();
-        vector<pair<int, int>> refuel;
-        for(int i=0;i<stations.size();i++)
+        if(target <= startFuel)
         {
-            refuel.push_back({stations[i][0], stations[i][1]});
+            return 0;
         }
 
-        sort(refuel.begin(), refuel.end());
-        int idx = 0;
         priority_queue<int> pq;
+
+        sort(stations.begin(), stations.end());
+        int w = startFuel;
+        int idx = 0;
         int count = 0;
 
-        while(s < target)
+        while(true)
         {
-            while(idx < n)
+            while(idx < stations.size())
             {
-                if(refuel[idx].first > s)
+                if(stations[idx][0] > w)
                 {
                     break;
                 }
-                pq.push(refuel[idx].second);
+                pq.push(stations[idx][1]);
                 idx++;
             }
-
             if(pq.empty())
             {
+                if(w >= target)
+                    return count;
                 return -1;
             }
-
-            int curr = pq.top();
+            w = w + pq.top();
             pq.pop();
-            s += curr;
             count ++;
+
+            if(w >= target)
+            {
+                return count;
+            }
         }
-        return count;
+        return w >= target ? count : -1;
     }
 };
