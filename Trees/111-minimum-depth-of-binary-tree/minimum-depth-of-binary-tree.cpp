@@ -16,15 +16,27 @@ public:
         {
             return 0;
         }
+        queue<pair<TreeNode*, int>> q;
+        q.push({root, 1});
 
-        int left = minDepth(root -> left);
-        int right = minDepth(root -> right);
-
-        if(left == 0 || right == 0)
+        while(!q.empty())
         {
-            return left + right + 1;
+            auto [node, depth] = q.front();
+            q.pop();
+
+            if(!node->left && !node->right)
+            {
+                return depth;
+            }
+            if(node->left)
+            {
+                q.push({node->left, depth+1});
+            }
+            if(node->right)
+            {
+                q.push({node->right, depth+1});
+            }
         }
-        return 1 + min(left, right);
-        
+        return 0;
     }
 };
